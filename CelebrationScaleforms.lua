@@ -2,8 +2,10 @@ local bg, fg, main
 
 local wallId = "CELEB_HEIST"
 
-function LoadPassedScaleforms()
-    print("CLIENT: Requesting Passed Scaleforms..")
+local wallId2 = "intro"
+
+function LoadHeistCelebScaleforms()
+    print("CLIENT: Requesting Heist Celeb Scaleforms..")
     local start = GetGameTimer()
     local time = 5000;
     bg = RequestScaleformMovie("HEIST_CELEBRATION_BG")
@@ -34,10 +36,10 @@ function LoadPassedScaleforms()
         end
         Citizen.Wait(0)
     end
-    print("CLIENT: Loaded Passed Scaleforms.")
+    print("CLIENT: Loaded Heist Celeb Scaleforms.")
 end
 
-function DeletePassedScaleforms()
+function DeleteScaleforms()
     if HasScaleformMovieLoaded(bg) then
         SetScaleformMovieAsNoLongerNeeded(bg)
         bg = 0
@@ -53,7 +55,7 @@ function DeletePassedScaleforms()
         main = 0
     end
 
-    print("CLIENT: Cleaned up Passed Scaleforms.")
+    print("CLIENT: Cleaned up Celebration Scaleforms.")
 end
 
 RegisterNetEvent("cs:ShowPassed")
@@ -69,7 +71,7 @@ function ShowPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartL
     ReleaseNamedScriptAudioBank("HUD_321_GO")
     RequestScriptAudioBank("HUD_321_GO", false)
     TogglePausedRenderphases(false)
-    LoadPassedScaleforms()
+    LoadHeistCelebScaleforms()
 
     BeginScaleformMovieMethod(bg, "CLEANUP")
     BeginTextCommandScaleformString("STRING")
@@ -479,7 +481,7 @@ function ShowPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartL
         Citizen.Wait(0)
     end
     
-    DeletePassedScaleforms()
+    DeleteScaleforms()
     ReleaseNamedScriptAudioBank("HUD_321_GO")
     DisplayHud(true)
     DisplayRadar(true)
@@ -487,15 +489,283 @@ function ShowPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartL
     TriggerEvent("cs:ShowPassed:onComplete", source)
 end
 
--- DEBUG
+function LoadJobIntroScaleforms()
+print("CLIENT: Requesting Job Intro Scaleforms..")
+    local start = GetGameTimer()
+    local time = 5000;
+    bg = RequestScaleformMovie("MP_CELEBRATION_BG")
+    while not HasScaleformMovieLoaded(bg) do
+        if GetGameTimer() > start + time then
+            print("CLIENT: Timed out while loading Scaleform Movie 'MP_CELEBRATION_BG'.")
+            return
+        end
+        Citizen.Wait(0)
+    end
+    start = GetGameTimer()
+    time = 5000
+    fg = RequestScaleformMovie("MP_CELEBRATION_FG")
+    while not HasScaleformMovieLoaded(fg) do
+        if GetGameTimer() > start + time then
+            print("CLIENT: Timed out while loading Scaleform Movie 'MP_CELEBRATION_FG'.")
+            return
+        end
+        Citizen.Wait(0)
+    end
+    start = GetGameTimer()
+    time = 5000
+    main = RequestScaleformMovie("MP_CELEBRATION")
+    while not HasScaleformMovieLoaded(main) do
+        if GetGameTimer() > start + time then
+            print("CLIENT: Timed out while loading Scaleform Movie 'MP_CELEBRATION'.")
+            return
+        end
+        Citizen.Wait(0)
+    end
+    print("CLIENT: Loaded Job Intro Scaleforms.")
+end
+
+function ShowJobIntro(title, type, colour)
+    AnimpostfxStopAll()
+    DisplayHud(false)
+    DisplayRadar(false)
+    SetAudioFlag("LoadMPData", true)
+    LoadJobIntroScaleforms()    
+    BeginScaleformMovieMethod(bg, "CLEANUP")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+    BeginScaleformMovieMethod(fg, "CLEANUP")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+    BeginScaleformMovieMethod(main, "CLEANUP")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(bg, "CREATE_STAT_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(colour)
+    EndTextCommandScaleformString()
+    ScaleformMovieMethodAddParamInt(-1)
+    EndScaleformMovieMethod()
+    BeginScaleformMovieMethod(fg, "CREATE_STAT_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(colour)
+    EndTextCommandScaleformString()
+    ScaleformMovieMethodAddParamInt(-1)
+    EndScaleformMovieMethod()
+    BeginScaleformMovieMethod(main, "CREATE_STAT_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(colour)
+    EndTextCommandScaleformString()
+    ScaleformMovieMethodAddParamInt(-1)
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(bg, "ADD_INTRO_TO_WALL")
+    -- wallId
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    -- modelLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(type)
+    EndTextCommandScaleformString()
+    -- jobName
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(title)
+    EndTextCommandScaleformString()
+    -- challenegeTextLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- challengePartsText
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- targetTypeTextLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- targetValue
+    ScaleformMovieMethodAddParamInt(0)
+    -- targetValuePrefix
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    --modelLabelIsStringLiteral
+    ScaleformMovieMethodAddParamInt(1)
+    -- textColourName
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("HUD_COLOUR_PURE_WHITE")
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(fg, "ADD_INTRO_TO_WALL")
+    -- wallId
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    -- modelLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(type)
+    EndTextCommandScaleformString()
+    -- jobName
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(title)
+    EndTextCommandScaleformString()
+    -- challenegeTextLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- challengePartsText
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- targetTypeTextLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- targetValue
+    ScaleformMovieMethodAddParamInt(0)
+    -- targetValuePrefix
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    --modelLabelIsStringLiteral
+    ScaleformMovieMethodAddParamInt(1)
+    -- textColourName
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("HUD_COLOUR_PURE_WHITE")
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(main, "ADD_INTRO_TO_WALL")
+    -- wallId
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    -- modelLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(type)
+    EndTextCommandScaleformString()
+    -- jobName
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(title)
+    EndTextCommandScaleformString()
+    -- challenegeTextLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- challengePartsText
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- targetTypeTextLabel
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    -- targetValue
+    ScaleformMovieMethodAddParamInt(0)
+    -- targetValuePrefix
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("")
+    EndTextCommandScaleformString()
+    --modelLabelIsStringLiteral
+    ScaleformMovieMethodAddParamInt(1)
+    -- textColourName
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName("HUD_COLOUR_PURE_WHITE")
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(bg, "ADD_BACKGROUND_TO_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    ScaleformMovieMethodAddParamInt(70) -- Alpha
+    ScaleformMovieMethodAddParamInt(0) -- Texture Id
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(fg, "ADD_BACKGROUND_TO_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    ScaleformMovieMethodAddParamInt(70) -- Alpha
+    ScaleformMovieMethodAddParamInt(0) -- Texture Id
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(main, "ADD_BACKGROUND_TO_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    ScaleformMovieMethodAddParamInt(70) -- Alpha
+    ScaleformMovieMethodAddParamInt(0) -- Texture Id
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(bg, "SHOW_STAT_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(fg, "SHOW_STAT_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+
+    BeginScaleformMovieMethod(main, "SHOW_STAT_WALL")
+    BeginTextCommandScaleformString("STRING")
+    AddTextComponentSubstringPlayerName(wallId2)
+    EndTextCommandScaleformString()
+    EndScaleformMovieMethod()
+
+    local start = GetGameTimer()
+    local time = 350
+    while GetGameTimer() < start + time do
+        DrawScaleformMovieFullscreenMasked(bg, fg, 255, 255, 255, 255)
+        DrawScaleformMovieFullscreen(main, 255, 255, 255, 255, 0)
+        Citizen.Wait(0)
+    end
+    PlaySoundFrontend(-1, "Mission_Pass_Notify", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", true)
+    start = GetGameTimer()
+    time = 2500
+    while GetGameTimer() < start + time do
+        DrawScaleformMovieFullscreenMasked(bg, fg, 255, 255, 255, 255)
+        DrawScaleformMovieFullscreen(main, 255, 255, 255, 255, 0)
+        Citizen.Wait(0)
+    end
+    DeleteScaleform()
+    DisplayHud(true)
+    DisplayRadar(true)
+end
+
+RegisterNetEvent("cs:ShowJobIntro")
+AddEventHandler("cs:ShowJobIntro", function (title, type, colour)
+    ShowJobIntro(title, type, colour)
+end)
 
 Citizen.CreateThread(function()
     while true do
         Wait(0) -- Prevents freezing the game
         if IsControlJustPressed(0, 51) then
-            TriggerEvent("cs:ShowPassed", "", "ROUND WON", "HUD_COLOUR_BLACK", -6900000, 500, 0, 1000, 0, 1)
+            TriggerEvent("cs:ShowJobIntro", "Belle cock and balls torture", "CELEB_MISSION", "HUD_COLOUR_RED")
         end
     end
 end)
 
-exports('cs:showPassed', showPassed)
+exports('cs:ShowPassed', ShowPassed)
+exports('cs:ShowJobIntro', ShowJobIntro)
