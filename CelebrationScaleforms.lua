@@ -467,15 +467,4 @@ function showPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartL
     TriggerClientEvent("cs:ShowPassed:onComplete", source)
 end
 
--- DEBUG
-
-Citizen.CreateThread(function()
-    while true do
-        Wait(0) -- Prevents freezing the game
-        if IsControlJustPressed(0, 51) then
-            TriggerEvent("cs:ShowPassed", "SHERILL", "CANT FIND MY FUCKIN GLASSES!", "HUD_COLOUR_BLACK", -6900000, 500, 0, 1000, 0, 1)
-        end
-    end
-end)
-
 exports('showPassed', showPassed)
