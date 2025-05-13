@@ -4,16 +4,34 @@ local wallId = "CELEB_HEIST"
 
 function LoadPassedScaleforms()
     print("CLIENT: Requesting Passed Scaleforms..")
+    local start = GetGameTimer()
+    local time = 5000;
     bg = RequestScaleformMovie("HEIST_CELEBRATION_BG")
     while not HasScaleformMovieLoaded(bg) do
+        if GetGameTimer() > start + time then
+            print("CLIENT: Timed out while loading Scaleform Movie 'HEIST_CELEBRATION_BG'.")
+            return
+        end
         Citizen.Wait(0)
     end
+    start = GetGameTimer()
+    time = 5000
     fg = RequestScaleformMovie("HEIST_CELEBRATION_FG")
     while not HasScaleformMovieLoaded(fg) do
+        if GetGameTimer() > start + time then
+            print("CLIENT: Timed out while loading Scaleform Movie 'HEIST_CELEBRATION_FG'.")
+            return
+        end
         Citizen.Wait(0)
     end
+    start = GetGameTimer()
+    time = 5000
     main = RequestScaleformMovie("HEIST_CELEBRATION")
     while not HasScaleformMovieLoaded(main) do
+        if GetGameTimer() > start + time then
+            print("CLIENT: Timed out while loading Scaleform Movie 'HEIST_CELEBRATION'.")
+            return
+        end
         Citizen.Wait(0)
     end
     print("CLIENT: Loaded Passed Scaleforms.")
@@ -34,14 +52,16 @@ function DeletePassedScaleforms()
         SetScaleformMovieAsNoLongerNeeded(main)
         main = 0
     end
+
+    print("CLIENT: Cleaned up Passed Scaleforms.")
 end
 
 RegisterNetEvent("cs:ShowPassed")
 AddEventHandler("cs:ShowPassed", function (smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
-    showPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
+    ShowPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
 end)
 
-function showPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
+function ShowPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
     AnimpostfxStopAll()
     DisplayHud(false)
     DisplayRadar(false)
@@ -452,7 +472,7 @@ function showPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartL
     EndScaleformMovieMethod()
 
     local start = GetGameTimer()
-    local time = 15000
+    local time = 14000
     while GetGameTimer() < start + time do
         DrawScaleformMovieFullscreenMasked(bg, fg, 255, 255, 255, 255)
         DrawScaleformMovieFullscreen(main, 255, 255, 255, 255, 0)
@@ -464,7 +484,18 @@ function showPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartL
     DisplayHud(true)
     DisplayRadar(true)
     TogglePausedRenderphases(true)
-    TriggerClientEvent("cs:ShowPassed:onComplete", source)
+    TriggerEvent("cs:ShowPassed:onComplete", source)
 end
 
-exports('showPassed', showPassed)
+-- DEBUG
+
+Citizen.CreateThread(function()
+    while true do
+        Wait(0) -- Prevents freezing the game
+        if IsControlJustPressed(0, 51) then
+            TriggerEvent("cs:ShowPassed", "", "ROUND WON", "HUD_COLOUR_BLACK", -6900000, 500, 0, 1000, 0, 1)
+        end
+    end
+end)
+
+exports('cs:showPassed', showPassed)
