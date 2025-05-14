@@ -8,6 +8,8 @@ local pos
 
 local temp
 
+local visible = false
+
 function LoadScaleform()
     print("CLIENT: Requesting Drilling Scaleform..")
     local start = GetGameTimer()
@@ -20,7 +22,6 @@ function LoadScaleform()
         Citizen.Wait(0)
     end
     print("CLIENT: Loaded Drilling Scaleform.")
-end
 end
 
 function DeleteScaleform()
@@ -65,3 +66,25 @@ EndScaleformMovieMethod()
 DrawScaleformMovieFullscreen(handle, 255, 255, 255, 255, 0)
 end
 end
+
+RegisterNetEvent("drilling:SetVisible")
+AddEventHandler("drilling:SetVisible", function (value)
+    visible = value
+end)
+
+Citizen.CreateThread(function ()
+    while true do
+        if visible then
+            if not HasScaleformMovieLoaded(handle) then
+                LoadScaleform()
+            else
+                Draw()
+            end
+        else
+            if HasScaleformMovieLoaded(handle) or handle ~= nil then
+                DeleteScaleform()
+            end
+        end
+        Citizen.Wait(0)
+    end
+end)
