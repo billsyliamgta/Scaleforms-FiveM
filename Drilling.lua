@@ -81,7 +81,7 @@ Citizen.CreateThread(function ()
                 Draw()
             end
         else
-            if HasScaleformMovieLoaded(handle) or handle ~= nil then
+            if HasScaleformMovieLoaded(handle) then
                 DeleteScaleform()
             end
         end
