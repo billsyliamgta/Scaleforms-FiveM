@@ -28,6 +28,11 @@ end)```
 
 # Rank Bar
 
+Set the Rank: ```TriggerEvent("rankBar:SetPlayerRank", 9)```
+Set the XP: ```TriggerEvent("rankBar:SetPlayerXP", 15000)```
+Add XP: ```TriggerEvent("rankBar:AddXP", 1000)```
+Remove XP: ```TriggerEvent("rankBar:RemoveXP", 1000)```
+
 ![](https://raw.githubusercontent.com/billsyliamgta/Scaleforms-FiveM/refs/heads/main/rankbar_screen.jpg)
 
 # Drilling
