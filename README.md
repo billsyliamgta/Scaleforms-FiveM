@@ -1,4 +1,4 @@
-# Celebration Scaleforms
+# Celebration
 
 Example: ```Citizen.CreateThread(function ()
     while true do
@@ -25,3 +25,16 @@ Example: ```Citizen.CreateThread(function ()
 end)```
 
 ![](https://raw.githubusercontent.com/billsyliamgta/Scaleforms-FiveM/refs/heads/main/midsized_message_screen.jpg)
+
+# Drilling
+
+Example: ```Citizen.CreateThread(function ()
+    while true do
+        if IsControlJustPressed(0, 51) then
+        TriggerEvent("drilling:SetVisible", true)
+    end
+        Citizen.Wait(0)
+    end
+end)```
+
+![](https://raw.githubusercontent.com/billsyliamgta/Scaleforms-FiveM/refs/heads/main/drilling_screen.jpg)
