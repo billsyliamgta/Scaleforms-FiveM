@@ -1,5 +1,13 @@
 local handle
 
+local speed
+
+local depth
+
+local pos
+
+local temp
+
 function LoadScaleform()
     print("CLIENT: Requesting Drilling Scaleform..")
     local start = GetGameTimer()
@@ -13,7 +21,7 @@ function LoadScaleform()
     end
     print("CLIENT: Loaded Drilling Scaleform.")
 end
-end)
+end
 
 function DeleteScaleform()
     if HasScaleformMovieLoaded(handle) then
@@ -22,4 +30,10 @@ function DeleteScaleform()
     end
 
     print("CLIENT: Cleaned up Drilling Scaleform.")
+end
+
+function Draw()
+if HasScaleformMovieLoaded(handle) then
+DrawScaleformMovieFullscreen(handle, 255, 255, 255, 255, 0)
+end
 end
