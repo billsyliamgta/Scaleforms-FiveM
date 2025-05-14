@@ -26,6 +26,10 @@ end)```
 
 ![](https://raw.githubusercontent.com/billsyliamgta/Scaleforms-FiveM/refs/heads/main/midsized_message_screen.jpg)
 
+# Rank Bar
+
+![](https://raw.githubusercontent.com/billsyliamgta/Scaleforms-FiveM/refs/heads/main/rankbar_screen.jpg)
+
 # Drilling
 
 Example: ```Citizen.CreateThread(function ()
