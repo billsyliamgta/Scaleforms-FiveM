@@ -1,5 +1,7 @@
 local handle
 
+local useCondensed = false
+
 function LoadScaleform()
     print("CLIENT: Requesting Midsized Message Scaleforms..")
     local start = GetGameTimer()
@@ -41,7 +43,7 @@ AddTextComponentSubstringPlayerName(subtitle)
 EndTextCommandScaleformString()
 ScaleformMovieMethodAddParamInt(color)
 ScaleformMovieMethodAddParamBool(false)
-ScaleformMovieMethodAddParamBool(true)
+ScaleformMovieMethodAddParamBool(useCondensed)
 EndScaleformMovieMethod()
 local start = GetGameTimer()
 local time = 8000
@@ -63,4 +65,13 @@ end
 DeleteScaleform()
 end
 
+RegisterNetEvent('midsizedMessage:SetCondensed')
+AddEventHandler('midsizedMessage:SetCondensed', function(value)
+SetCondensed(value)
+end
+function SetCondensed(value)
+useCondensed = value
+end
+
 exports('midsizedMessage:Show', Show)
+exports('midsizedMessage:SetCondensed', SetCondensed)
