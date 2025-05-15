@@ -1,12 +1,12 @@
 local handle
 
-local speed
+local speed = 0.0
 
-local depth
+local depth = 0.1
 
-local pos
+local pos = 0.1
 
-local temp
+local temp = 0.0
 
 local visible = false
 
