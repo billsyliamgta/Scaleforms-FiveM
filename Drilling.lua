@@ -69,21 +69,18 @@ end
 
 RegisterNetEvent("drilling:SetVisible")
 AddEventHandler("drilling:SetVisible", function (value)
+    if value == true then
+    LoadScaleform()
+    else
+    DeleteScaleform()
+    end
     visible = value
 end)
 
 Citizen.CreateThread(function ()
     while true do
         if visible then
-            if not HasScaleformMovieLoaded(handle) then
-                LoadScaleform()
-            else
-                Draw()
-            end
-        else
-            if HasScaleformMovieLoaded(handle) then
-                DeleteScaleform()
-            end
+            Draw()
         end
         Citizen.Wait(0)
     end
