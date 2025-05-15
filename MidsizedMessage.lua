@@ -48,7 +48,7 @@ ScaleformMovieMethodAddParamBool(useCondensed)
 EndScaleformMovieMethod()
 local start = GetGameTimer()
 local time = 8000
-while GetGameTimer() < start + time do
+while GetGameTimer() < start + time and not IsEntityDead(GetPlayerPedId()) do
     DrawScaleformMovieFullscreen(handle, 255, 255, 255, 255, 0)
     Citizen.Wait(0)
 end
