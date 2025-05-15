@@ -23,8 +23,8 @@ function DeleteScaleform()
     print("CLIENT: Cleaned up Midsized Message Scaleform.")
 end
 
-RegisterNetEvent("ms:Show")
-AddEventHandler("ms:Show", function (title, subtitle, color, speed, transOutColor)
+RegisterNetEvent("midsizedMessage:Show")
+AddEventHandler("midsizedMessage:Show", function (title, subtitle, color, speed, transOutColor)
     Show(title, subtitle, color, speed, transOutColor)
 end)
 
@@ -63,4 +63,4 @@ end
 DeleteScaleform()
 end
 
-exports('ms:Show', Show)
+exports('midsizedMessage:Show', Show)
