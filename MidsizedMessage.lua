@@ -30,8 +30,9 @@ AddEventHandler("midsizedMessage:Show", function (title, subtitle, color, speed,
     Show(title, subtitle, color, speed, transOutColor)
 end)
 
+-- keep in mind color and transOutColor are integers because its a colorId  
 function Show(title, subtitle, color, speed, transOutColor)
-SetAudioFlag("LoadMPData", true)
+SetAudioFlag("LoadMPData", true) -- you'd think this shit be already loaded on FiveM lmao
 LoadScaleform()
 PlaySoundFrontend(-1, "Shard_Appear", "GTAO_FM_Events_Soundset", false)
 BeginScaleformMovieMethod(handle, "SHOW_SHARD_MIDSIZED_MESSAGE")
