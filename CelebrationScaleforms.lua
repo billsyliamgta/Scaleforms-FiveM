@@ -58,8 +58,8 @@ function DeleteScaleforms()
     print("CLIENT: Cleaned up Celebration Scaleforms.")
 end
 
-RegisterNetEvent("cs:ShowPassed")
-AddEventHandler("cs:ShowPassed", function (smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
+RegisterNetEvent("celeb:ShowPassed")
+AddEventHandler("celeb:ShowPassed", function (smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
     ShowPassed(smallText, bigText, bgColour, cash, rp, previousRp, xpStartLimit, xpEndLimit, playerLevel)
 end)
 
@@ -753,8 +753,8 @@ function ShowJobIntro(title, type, colour)
     DisplayRadar(true)
 end
 
-RegisterNetEvent("cs:ShowJobIntro")
-AddEventHandler("cs:ShowJobIntro", function (title, type, colour)
+RegisterNetEvent("celeb:ShowJobIntro")
+AddEventHandler("celeb:ShowJobIntro", function (title, type, colour)
     ShowJobIntro(title, type, colour)
 end)
 
@@ -767,5 +767,5 @@ Citizen.CreateThread(function()
     end
 end)
 
-exports('cs:ShowPassed', ShowPassed)
-exports('cs:ShowJobIntro', ShowJobIntro)
+exports('celeb:ShowPassed', ShowPassed)
+exports('celeb:ShowJobIntro', ShowJobIntro)
